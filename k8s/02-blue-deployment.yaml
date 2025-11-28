@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: syklab-blue
+  namespace: syklab
+  labels:
+    app: syklab
+    version: blue
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: syklab
+      version: blue
+  template:
+    metadata:
+      labels:
+        app: syklab
+        version: blue
+    spec:
+      containers:
+        - name: syklab
+          image: your-registry/kubelancer-labs-blue:2.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 20
+
+

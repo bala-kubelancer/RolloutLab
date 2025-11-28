@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: bluegreen-vs
+  namespace: syklab
+spec:
+  hosts:
+    - syklab.dev.kubelancer.net
+  gateways:
+    - syklab-gateway
+  http:
+    - route:
+        - destination:
+            host: syklab-green.syklab.svc.cluster.local
+
